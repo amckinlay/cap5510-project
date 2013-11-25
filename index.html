@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <link rel="stylesheet" href="styles/300047f3.main.css"/>
+        <link rel="stylesheet" href="styles/457041b7.main.css"/>
         <script src="scripts/vendor/d7100892.modernizr.js"></script>
     </head>
     <body>
@@ -22,17 +22,53 @@
         <div class="container">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Dot-matrix methods</a></li>
+                    <li class="active"><a href="#">Dynamic programming</a></li>
+                    <li><a href="#">Word methods</a></li>
                 </ul>
-                <h3 class="text-muted">cap5510 project</h3>
+                <h3 class="text-muted">Pairwise sequence alignment visulation</h3>
             </div>
 
-            <div class="jumbotron">
-                <h1>'Allo, 'Allo!</h1>
-                <p class="lead">Always a pleasure scaffolding your apps.</p>
-                <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
+            <ul class="nav nav-tabs">
+                <li class="active"><a id="t0" href="#" data-toggle="tab">Needleman–Wunsch</a></li>
+                <li><a id="t1" href="#" data-toggle="tab">Smith–Waterman</a></li>
+            </ul>
+
+            <div class="well well-lg">
+                <h1>Sequences</h1>
+                <form role="form">
+                    <div class="form-group">
+                        <input class="form-control" id="seq0" placeholder="Sequence 1">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="seq1" placeholder="Sequence 2">
+                    </div>
+                </form>
+
+                <h1>Alignment</h1>
+                <div id="alignment">
+                </div>
+
+                <h1>Substitution matrix</h1>
+                <div id="matrix" style="position: relative">
+                    <table class="table table-bordered table-condensed table-nonfluid"></table>
+                </div>
+
+                <h1>Scoring</h1>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="identity">Identity</label>
+                        <input class="form-control" id="identity" placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="foreign">Foreign</label>
+                        <input class="form-control" id="foreign" placeholder="-3">
+                    </div>
+                    <div class="form-group">
+                        <label for="indel">Indel</label>
+                        <input class="form-control" id="indel" placeholder="-5">
+                    </div>
+                </form>
             </div>
 
             <div class="row marketing">
@@ -45,18 +81,16 @@
 
                     <h4>Modernizr</h4>
                     <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-
                 </div>
             </div>
 
             <div class="footer">
                 <p>♥ from the Yeoman team</p>
             </div>
-
         </div>
 
 
-        <script src="scripts/dbd26eaf.vendor.js"></script>
+        <script src="scripts/e4aabde4.vendor.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -68,7 +102,7 @@
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
 
-        <script src="scripts/b6c3df09.main.js"></script>
+        <script src="scripts/5ffca895.main.js"></script>
 
         <script src="scripts/20bdd8fe.plugins.js"></script>
 </body>
