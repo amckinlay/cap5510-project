@@ -26,17 +26,38 @@
         <div class="container">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li class="active"><a href="#">Dot-matrix methods</a></li>
+                    <li><a href="#">Dynamic programming</a></li>
+                    <li><a href="#">Word methods</a></li>
                 </ul>
-                <h3 class="text-muted">cap5510 project</h3>
+                <h3 class="text-muted">Exploring sequence alignment visualizations</h3>
             </div>
 
-            <div class="jumbotron">
-                <h1>'Allo, 'Allo!</h1>
-                <p class="lead">Always a pleasure scaffolding your apps.</p>
-                <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#">Needleman–Wunsch</a></li>
+                <li><a href="#">Smith–Waterman</a></li>
+            </ul>
+
+            <div class="well well-lg">
+                <h1>Sequences</h1>
+                <forM role="form">
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail2">Sequence 1</label>
+                        <input class="form-control" id="seq0" placeholder="Sequence 1">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Sequence 2</label>
+                        <input class="form-control" id="seq1" placeholder="Sequence 2">
+                    </div>
+                </form>
+
+                <h1>Alignment</h1>
+                <div id="alignment">
+                </div>
+
+                <h1>Substitution matrix</h1>
+                <table class="table table-bordered table-condensed table-nonfluid"></table>
+
             </div>
 
             <div class="row marketing">
@@ -49,20 +70,20 @@
 
                     <h4>Modernizr</h4>
                     <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-
                 </div>
             </div>
 
             <div class="footer">
                 <p>♥ from the Yeoman team</p>
             </div>
-
         </div>
 
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/jquery.js"></script>
+        <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
+        <script src="bower_components/d3/d3.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
