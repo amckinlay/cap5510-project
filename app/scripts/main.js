@@ -95,20 +95,21 @@ var svgSeq1;
 function makeSequences() {
 	if (svgAlign === undefined) {
 		svgAlign = d3.select("#alignment").append("svg")
-			.attr("height", 100).attr("width", 1000);
+			.attr("height", 50).attr("width", 1000)
+			.style("opacity", 0.5);
 		svgSeq0 = svgAlign.append("g");
 		svgSeq1 = svgAlign.append("g")
-			.attr("transform", "translate(0, 90)");
+			.attr("transform", "translate(0, 40)");
 	}		
 }
 
 var baseWidth = 35;
 
 var dnaColors = {
-	"A": "#69D2E7",
-	"T": "#A7DBD8",
-	"C": "#E0E4CC",
-	"G": "#F38630"
+	"A": "#47a447",
+	"T": "#39b3d7",
+	"C": "#ed9c28",
+	"G": "#d2322d"
 };
 
 function displaySequences(seq0, seq1) {
