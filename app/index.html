@@ -26,27 +26,25 @@
         <div class="container">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
-                    <li class="active"><a href="#">Dot-matrix methods</a></li>
-                    <li><a href="#">Dynamic programming</a></li>
+                    <li><a href="#">Dot-matrix methods</a></li>
+                    <li class="active"><a href="#">Dynamic programming</a></li>
                     <li><a href="#">Word methods</a></li>
                 </ul>
-                <h3 class="text-muted">Exploring sequence alignment visualizations</h3>
+                <h3 class="text-muted">Pairwise sequence alignment visulation</h3>
             </div>
 
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#">Needleman–Wunsch</a></li>
-                <li><a href="#">Smith–Waterman</a></li>
+                <li class="active"><a id="t0" href="#" data-toggle="tab">Needleman–Wunsch</a></li>
+                <li><a id="t1" href="#" data-toggle="tab">Smith–Waterman</a></li>
             </ul>
 
             <div class="well well-lg">
                 <h1>Sequences</h1>
-                <forM role="form">
+                <form role="form">
                     <div class="form-group">
-                        <label class="sr-only" for="exampleInputEmail2">Sequence 1</label>
                         <input class="form-control" id="seq0" placeholder="Sequence 1">
                     </div>
                     <div class="form-group">
-                        <label class="sr-only" for="exampleInputPassword2">Sequence 2</label>
                         <input class="form-control" id="seq1" placeholder="Sequence 2">
                     </div>
                 </form>
@@ -56,8 +54,25 @@
                 </div>
 
                 <h1>Substitution matrix</h1>
-                <table class="table table-bordered table-condensed table-nonfluid"></table>
+                <div id="matrix" style="position: relative">
+                    <table class="table table-bordered table-condensed table-nonfluid"></table>
+                </div>
 
+                <h1>Scoring</h1>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="identity">Identity</label>
+                        <input class="form-control" id="identity" placeholder="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="foreign">Foreign</label>
+                        <input class="form-control" id="foreign" placeholder="-3">
+                    </div>
+                    <div class="form-group">
+                        <label for="indel">Indel</label>
+                        <input class="form-control" id="indel" placeholder="-5">
+                    </div>
+                </form>
             </div>
 
             <div class="row marketing">
