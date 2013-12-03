@@ -1,3 +1,5 @@
+"use strict";
+
 var seq0 = "";
 var seq1 = "";
 var oldSeq0 = "";
@@ -8,16 +10,41 @@ var max;
 
 var svgSize = 20;
 
-var table = d3.select("table");
-var thead = table.append("thead").append("tr");
-var tbody = table.append("tbody");
+var table;
+var thead;
+var tbody;
 
-var svgPath = d3.select("#matrix").append("svg")
-	.attr("width", 0)
-	.attr("height", 0)
-	.style("pointer-events", "none");
+var svgPath;
 
 function makeTable(seq0, seq1) {
+	var matrixExists = !d3.select("#matrix table").empty();
+
+	// If matrix and svgPath do not exist seq0.length or seq1.length != 0 then create them
+	if (!matrixExists && (seq0.length !== 0 || seq1.length !== 0)) {
+		var mttr = d3.select("#matrix");
+		table = mttr
+			.append("table")
+			.attr("class", "table table-bordered table-condensed table-nonfluid");
+		thead = table.append("thead").append("tr");
+		tbody = table.append("tbody");
+		svgPath = mttr
+			.append("svg")
+			.attr("width", 0)
+			.attr("height", 0)
+			.style("pointer-events", "none");
+	}
+
+	// If matrix and svgPath exist and seq0.length and seq1.length == 0 then delete them
+	else if (matrixExists && seq0.length === 0 && seq1.length === 0) {
+		table.remove();
+		svgPath.remove();
+		table = undefined;
+		thead = undefined;
+		tbody = undefined;
+		svgPath = undefined;
+		return;
+	}
+
     var topHeaders = thead.selectAll("th").data(seq0).text(String);
     topHeaders.enter().append("th").text(String).style("border-bottom-width", "1px");
     topHeaders.exit().remove();
@@ -91,64 +118,90 @@ function updateTable(matrix) {
 var svgAlign;
 var svgSeq0;
 var svgSeq1;
+var svgSeq0Text;
+var svgSeq1Text;
 
 function makeSequences() {
 	if (svgAlign === undefined) {
 		svgAlign = d3.select("#alignment").append("svg")
-			.attr("height", 50).attr("width", 1000)
+			.attr("height", 60).attr("width", 1000)
 			.style("opacity", 0.5);
 		svgSeq0 = svgAlign.append("g");
 		svgSeq1 = svgAlign.append("g")
 			.attr("transform", "translate(0, 40)");
-	}		
+		svgSeq0Text = svgAlign.append("g")
+			.attr("transform", "translate(0, 11)");
+		svgSeq1Text = svgAlign.append("g")
+			.attr("transform", "translate(0, 51)");
+	}
 }
 
-var baseWidth = 35;
+var baseSize = 20;
 
 var dnaColors = {
 	"A": "#47a447",
 	"T": "#39b3d7",
 	"C": "#ed9c28",
-	"G": "#d2322d"
+	"G": "#d2322d",
+	"-": "whitesmoke"
 };
 
 function displaySequences(seq0, seq1) {
-	function displaySequence(seq, g) {
+	if (svgAlign && seq0.length === 0 && seq1.length === 0) {
+		svgAlign.remove();
+		svgAlign = undefined;
+		return;
+	}
+
+	function displaySequence(seq, g, gT) {
 		var bases = g.selectAll("rect").data(seq)
 			.style("fill", function(d) {
 				return dnaColors[d];
 			});
 		bases.enter().append("rect")
-			.attr("width", baseWidth)
-			.attr("height", 10)
+			.attr("width", baseSize)
+			.attr("height", baseSize)
 			.attr("x", function(d, i) {
-				return i*baseWidth
+				return i*baseSize
 			})
 			.style("fill", function(d) {
 				return dnaColors[d];
 			});
 		bases.exit().remove();
+		var basesT = gT.selectAll("text").data(seq)
+			.text(function(d) { return d; });
+		basesT.enter().append("text")
+			.attr("x", function(d, i) {
+				return i*baseSize+(baseSize/2);
+			})
+			.text(function(d) { return d; })
+			.attr("text-anchor", "middle")
+			.attr("alignment-baseline", "middle")
+			.style("font-size", 18);
+		basesT.exit().remove();
 	}
-	displaySequence(seq0, svgSeq0);
-	displaySequence(seq1, svgSeq1);
+	displaySequence(seq0, svgSeq0, svgSeq0Text);
+	displaySequence(seq1, svgSeq1, svgSeq1Text);
 }
 
 d3.select("#seq0").on("keyup", function() {
+	oldSeq0 = seq0;
 	seq0 = this.value.toUpperCase();
 	makeSequences();
 	displaySequences(seq0, seq1);
 	makeTable(seq0, seq1);
-	local ? eval(oneStepLocal) : eval(oneStep);
+	local ? someDumbFunc(oneStepLocal) : someDumbFunc(oneStep);
 });
 d3.select("#seq1").on("keyup", function() {
+	oldSeq1 = seq1;
 	seq1 = this.value.toUpperCase();
 	makeSequences();
 	displaySequences(seq0, seq1);
 	makeTable(seq0, seq1);
-	local ? eval(oneStepLocal) : eval(oneStep);
+	local ? someDumbFunc(oneStepLocal) : someDumbFunc(oneStep);
 });
 
-var indel = -4;
+var indel = -5;
 var ident = 1;
 var foreign = -3;
 function score(x, y) {
@@ -160,22 +213,28 @@ d3.select("#identity").on("keyup", function() {
 	if (this.value == "-") return;
 	if (!this.value) ident = 1;
 	else ident = parseInt(this.value);
-	if (local) eval(oneStepLocal);
-	else eval(oneStep);
+	oldSeq0 = "";
+	oldSeq1 = "";
+	if (local) someDumbFunc(oneStepLocal);
+	else someDumbFunc(oneStep);
 });
 d3.select("#foreign").on("keyup", function() {
 	if (this.value == "-") return;
 	if (!this.value) foreign = -3;
 	else foreign = parseInt(this.value);
-	if (local) eval(oneStepLocal);
-	else eval(oneStep);
+	oldSeq0 = "";
+	oldSeq1 = "";
+	if (local) someDumbFunc(oneStepLocal);
+	else someDumbFunc(oneStep);
 });
 d3.select("#indel").on("keyup", function() {
 	if (this.value == "-") return;
 	if (!this.value) indel = -4;
 	else indel = parseInt(this.value);
-	if (local) eval(oneStepLocal);
-	else eval(oneStep);
+	oldSeq0 = "";
+	oldSeq1 = "";
+	if (local) someDumbFunc(oneStepLocal);
+	else someDumbFunc(oneStep);
 });
 
 function oneStep(matrix, row, col) {
@@ -226,12 +285,16 @@ var local = false;
 $("#t0").tab();
 $("#t0").on("click", function() {
 	local = false;
-	eval(oneStep);
+	oldSeq0 = "";
+	oldSeq1 = "";
+	someDumbFunc(oneStep);
 });
 $("#t1").tab();
 $("#t1").on("click", function() {
 	local = true;
-	eval(oneStepLocal);
+	oldSeq0 = "";
+	oldSeq1 = "";
+	someDumbFunc(oneStepLocal);
 });
 
 function oneStepLocal(matrix, row, col) {
@@ -274,7 +337,7 @@ function oneStepLocal(matrix, row, col) {
 	}
 }
 
-function eval(func) {
+function someDumbFunc(func) {
 	if (seq1.length < matrix.length) {
 		matrix.splice(seq1.length, matrix.length);
 	} else {
@@ -298,6 +361,11 @@ function eval(func) {
 		}
 	}
 	for (var i = firstDiff1; i < seq1.length; ++i) {
+		for (var j = 0; j < firstDiff0; ++j) {
+			func(matrix, i, j);
+		}
+	}
+	for (var i = 0; i < seq1.length; ++i) {
 		for (var j = firstDiff0; j < seq0.length; ++j) {
 			func(matrix, i, j);
 		}
@@ -328,8 +396,35 @@ function backtrack(matrix, row, col) {
 
 	if (path_.empty()) path_ = svgPath.append("path");
 
-	path_.transition().attr("d", d3.svg.line()(coords))
-		.attr("stroke", "pink")
+	path_.attr("d", d3.svg.line()(coords))
+		.attr("stroke", "black")
 		.attr("stroke-width", 5)
 		.attr("fill", "none");
+
+	var spacedSeq0 = "";
+	var spacedSeq1 = "";
+
+	var prevRow = path[path.length - 1].row - 1;
+	for (var i = path.length - 1; i >= 0; --i) {
+		if (path[i].row === prevRow) {
+			spacedSeq1 += "-";
+		} else {
+			spacedSeq1 += seq1[path[i].row];
+		}
+		prevRow = path[i].row;
+	}
+
+	var prevCol = path[path.length - 1].col - 1;
+	for (var i = path.length - 1; i >= 0; --i) {
+		if (path[i].col === prevCol) {
+			spacedSeq0 += "-";
+		} else {
+			spacedSeq0 += seq0[path[i].col];
+		}
+		prevCol = path[i].col;
+	}
+
+	console.log(spacedSeq0, spacedSeq1);
+	makeSequences();
+	displaySequences(spacedSeq0, spacedSeq1);
 }
